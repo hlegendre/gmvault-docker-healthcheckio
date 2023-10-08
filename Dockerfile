@@ -23,6 +23,7 @@ RUN apk add --update \
 		shadow \
 		su-exec \
 		tzdata \
+		curl \
 	&& python -m ensurepip \
 	&& pip install --upgrade pip \
 	&& pip install gmvault \
