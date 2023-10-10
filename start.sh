@@ -3,7 +3,7 @@
 OAUTH_TOKEN="/data/${GMVAULT_EMAIL_ADDRESS}.oauth2"
 
 if [ "$GMVAULT_OPTIONS" != "" ]; then
-	echo "Gmvault will run with the following additional options: $GMVAULT_OPTIONS."
+  echo "Gmvault will run with the following additional options: $GMVAULT_OPTIONS."
 fi
 
 # Ensure there's an address to send reports to.
@@ -19,14 +19,14 @@ echo "Date: `date`."
 # Set up Gmvault group.
 GMVAULT_GID=${GMVAULT_GID:="$GMVAULT_DEFAULT_GID"}
 if [ "$(id -g gmvault)" != "$GMVAULT_GID" ]; then
-	groupmod -o -g "$GMVAULT_GID" gmvault
+  groupmod -o -g "$GMVAULT_GID" gmvault
 fi
 echo "Using group ID $(id -g gmvault)."
 
 # Set up Gmvault user.
 GMVAULT_UID=${GMVAULT_UID:="$GMVAULT_DEFAULT_UID"}
 if [ "$(id -u gmvault)" != "$GMVAULT_UID" ]; then
-	usermod -o -u "$GMVAULT_UID" gmvault
+  usermod -o -u "$GMVAULT_UID" gmvault
 fi
 echo "Using user ID $(id -u gmvault)."
 
@@ -41,21 +41,21 @@ echo "${GMVAULT_QUICK_SYNC_SCHEDULE} /app/backup_quick.sh" >> $CRONTAB
 
 # Start app.
 if [ -f $OAUTH_TOKEN ]; then
-	echo "Using OAuth token found at $OAUTH_TOKEN."
+  echo "Using OAuth token found at $OAUTH_TOKEN."
 
-	if [ "$GMVAULT_SYNC_ON_STARTUP" == "yes" ]; then
-		if [ -d /data/db ]; then
-			echo "Existing database directory found, running quick sync."
-			su-exec gmvault "/app/backup_quick.sh"
-		else
-			echo "No existing database found, running full sync."
-			su-exec gmvault "/app/backup_full.sh"
-		fi
-	else
-		echo "No sync on startup, see GMVAULT_SYNC_ON_STARTUP if you would like to change this."
-	fi
+  if [ "$GMVAULT_SYNC_ON_STARTUP" == "yes" ]; then
+    if [ -d /data/db ]; then
+      echo "Existing database directory found, running quick sync."
+      su-exec gmvault "/app/backup_quick.sh"
+    else
+      echo "No existing database found, running full sync."
+      su-exec gmvault "/app/backup_full.sh"
+    fi
+  else
+    echo "No sync on startup, see GMVAULT_SYNC_ON_STARTUP if you would like to change this."
+  fi
 
-	crond -f
+  crond -f
 fi
 
 echo "#############################"

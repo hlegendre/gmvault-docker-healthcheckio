@@ -3,8 +3,8 @@
 if [[ -n "${GMVAULT_HEALTHCHECKSIO_UUID}" ]]; then
   function onfail() {
     echo "Sync interrupted or in error"
-		# signal fail
-		curl -fsS -m 10 --retry 5 -o /dev/null "https://hc-ping.com/${GMVAULT_HEALTHCHECKSIO_UUID}/fail"
+    # signal fail
+    curl -fsS -m 10 --retry 5 -o /dev/null "https://hc-ping.com/${GMVAULT_HEALTHCHECKSIO_UUID}/fail"
     exit 1
   }
 
@@ -12,8 +12,8 @@ if [[ -n "${GMVAULT_HEALTHCHECKSIO_UUID}" ]]; then
   set -eE
   trap onfail ERR SIGINT SIGTERM
 
-	# signal start
-	curl -fsS -m 10 --retry 5 -o /dev/null "https://hc-ping.com/${GMVAULT_HEALTHCHECKSIO_UUID}/start"
+  # signal start
+  curl -fsS -m 10 --retry 5 -o /dev/null "https://hc-ping.com/${GMVAULT_HEALTHCHECKSIO_UUID}/start"
 fi
 
 echo "Starting quick sync of $GMVAULT_EMAIL_ADDRESS."
